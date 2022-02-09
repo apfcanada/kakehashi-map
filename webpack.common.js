@@ -1,11 +1,9 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
 	entry: './src/index.jsx',
 	output: {
-		path: path.resolve(__dirname, 'dist'),
 		filename: 'main.[contenthash].js',
 		chunkFilename: 'chunk.[contenthash].js'
 	},
@@ -53,11 +51,7 @@ module.exports = {
 		usedExports: true,
 	},
 	plugins: [
-		new CleanWebpackPlugin(),
-		new HtmlWebpackPlugin({
-			template:'src/index.html',
-			publicPath:'dist'
-		})
+		new CleanWebpackPlugin()
 	],
 	resolve: {
 		extensions: ['.js', '.jsx']

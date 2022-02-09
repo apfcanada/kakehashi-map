@@ -19,26 +19,20 @@ export default function(){
 			.then( setProvinces )
 	},[])
 	return (
-		<>
-			<h1>Hello World</h1>
-			<svg className="map" width={width} height={height}
-				viewBox={`${-width/2} ${-height/2} ${width} ${height}`}>
-				<g className="graticules">
-					{geoGraticule().lines().map( (g,i) => {
-						return <path key={i} className="graticule" d={pathGen(g)}/>
-					})}
-				</g>
-				<g className="jurisdictions">
-				{provinces.map( jur => (
-					<path key={jur.geo_id}
-						className="jurisdiction"
-						d={pathGen(jur.boundary)} />		
-					) )}
-				</g>
-			</svg>
+		<svg className="map" width={width} height={height}
+			viewBox={`${-width/2} ${-height/2} ${width} ${height}`}>
+			<g className="graticules">
+				{geoGraticule().lines().map( (g,i) => {
+					return <path key={i} className="graticule" d={pathGen(g)}/>
+				})}
+			</g>
+			<g className="jurisdictions">
 			{provinces.map( jur => (
-				<div key={jur.geo_id}>{jur.name.en}</div>
-			) )}
-		</>
+				<path key={jur.geo_id}
+					className="jurisdiction"
+					d={pathGen(jur.boundary)}/>		
+				) )}
+			</g>
+		</svg>
 	)
 }
