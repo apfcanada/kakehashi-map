@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { JurisdictionGraph } from 'jurisdictions'
+import { JurisdictionGraph, assignBoundaries } from 'jurisdictions'
 import { geoPath, geoGraticule, geoOrthographic } from 'd3-geo'
 import './map.less'
 
@@ -15,6 +15,7 @@ export default function(){
 	useEffect(()=>{
 		graph.lookup(2)
 			.then( canada => canada.children )
+			.then( assignBoundaries )
 			.then( setProvinces )
 	},[])
 	return (
@@ -26,6 +27,13 @@ export default function(){
 					{geoGraticule().lines().map( (g,i) => {
 						return <path key={i} className="graticule" d={pathGen(g)}/>
 					})}
+				</g>
+				<g className="jurisdictions">
+				{provinces.map( jur => (
+					<path key={jur.geo_id}
+						className="jurisdiction"
+						d={pathGen(jur.boundary)} />		
+					) )}
 				</g>
 			</svg>
 			{provinces.map( jur => (
