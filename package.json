@@ -1,0 +1,42 @@
+{
+  "name": "kakehashi-map",
+  "version": "1.0.0",
+  "description": "simple map of Canada - Japan student exchanges",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "npm ci && npx webpack --config webpack.prod.js",
+    "build-dev": "npm i && npx webpack --config webpack.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apfcanada/kakehashi-map.git"
+  },
+  "keywords": [
+    "canada",
+    "japan",
+    "study-abroad",
+    "students"
+  ],
+  "author": "Nate Wessel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apfcanada/kakehashi-map/issues"
+  },
+  "homepage": "https://github.com/apfcanada/kakehashi-map#readme",
+  "dependencies": {
+    "jurisdictions": "^2.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-deadcode-plugin": "^0.1.15"
+  }
+}
