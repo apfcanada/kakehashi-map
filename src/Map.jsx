@@ -1,23 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { JurisdictionGraph, assignBoundaries } from 'jurisdictions'
-import { geoPath, geoGraticule, geoOrthographic } from 'd3-geo'
+import { geoPath, geoGraticule, geoOrthographic, geoCentroid } from 'd3-geo'
 import './map.less'
 
 const graph = new JurisdictionGraph()
 
-const [width,height] = [800,800]
-
-const proj = geoOrthographic().scale(400).translate([0,0]).rotate([90,-50])
-const pathGen = geoPath().projection( proj )
-
+const [width,height] = [800,600]
+const bounds = [ [-width/2,-height/2], [width/2,height/2] ]
+	
 export default function(){
+	// projection is a function, so it needs to be wrapped
+	const [ {projection}, setProjection ] = useState({projection:null})
 	const [ provinces, setProvinces ] = useState([])
 	useEffect(()=>{
 		graph.lookup(2)
 			.then( canada => canada.children )
 			.then( assignBoundaries )
-			.then( setProvinces )
+			.then( provs => {
+				let geoms = {
+					type: 'GeometryCollection',
+					geometries: provs.map( j => j.boundary )
+				}
+				let [ lon, lat ] = geoCentroid( geoms )
+				let proj = geoOrthographic()
+					.rotate( [ -lon, -lat ] )
+					.fitExtent( bounds, geoms )
+				setProjection( { projection: proj } )
+				setProvinces( provs )
+			} )
 	},[])
+	if(!projection) return null;
+	const pathGen = geoPath().projection( projection )
 	return (
 		<svg className="map" width={width} height={height}
 			viewBox={`${-width/2} ${-height/2} ${width} ${height}`}>
