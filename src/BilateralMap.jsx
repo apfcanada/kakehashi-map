@@ -28,14 +28,14 @@ export default function({left,right}){
 	return (
 		<svg className="bilateral map"
 			viewBox={`${-width/2} ${-height/2} ${width} ${height}`}>
-			<g className="left" transform={`translate(${-(mapWidth+gutter)/2} 0)`}>
+			<g className="side left" transform={`translate(${-(mapWidth+gutter)/2} 0)`}>
 				{leftJur && 
 					<Map jurisdiction={leftJur} 
 						width={mapWidth}
 						height={mapHeight}/>
 				}
 			</g>
-			<g className="right"transform={`translate(${(mapWidth+gutter)/2} 0)`}>
+			<g className="side right"transform={`translate(${(mapWidth+gutter)/2} 0)`}>
 				{rightJur &&
 					<Map jurisdiction={rightJur} 
 						width={mapWidth} 

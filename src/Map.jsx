@@ -21,7 +21,9 @@ export default function({jurisdiction,width,height}){
 	if(!projection) return null;
 	const pathGen = geoPath().projection( projection )
 	return (
-		<>
+		<g>
+			<rect className="background" 
+				x={-width/2} y={-height/2} width={width} height={height}/>
 			<g className="graticules">
 				{geoGraticule().lines().map( (g,i) => {
 					return <path key={i} className="graticule" d={pathGen(g)}/>
@@ -34,7 +36,7 @@ export default function({jurisdiction,width,height}){
 						d={pathGen(jur.boundary)}/>		
 				) )}
 			</g>
-		</>
+		</g>
 	)
 }
 
