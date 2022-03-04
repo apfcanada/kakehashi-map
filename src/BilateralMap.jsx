@@ -7,13 +7,22 @@ const graph = new JurisdictionGraph()
 const [width,height,gutter,margin] = [800,400,40,10]
 const bounds = [ [-width/2,-height/2], [width/2,height/2] ]
 
+import { connections } from './connections.js'
+
 export default function({left,right}){
 	const [ leftJur, setLeftJur ] = useState(null)
 	const [ rightJur, setRightJur ] = useState(null)
 	useEffect(()=>{
 		graph.lookup(left).then(setLeftJur)
 		graph.lookup(right).then(setRightJur)
-	},[left,right])
+		for( let [ fromGeo_id, toList ] of Object.entries(connections) ){
+			toList.map( toGeo_id => {
+				graph.lookup([fromGeo_id,toGeo_id]).then( ([fromJur,toJur]) => {
+					new DirectedConnection(fromJur,toJur).notify()
+				} )
+			} )
+		}
+	},[left,right,connections])
 	let mapWidth = (width-gutter-2*margin)/2
 	let mapHeight = height - 2*margin
 	return (

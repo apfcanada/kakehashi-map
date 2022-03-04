@@ -38,8 +38,6 @@ export default function({jurisdiction,width,height}){
 	)
 }
 
-import { cities as cityData } from './cities.js'
-
 function Cities({proj}){
 	const [ connections, setConnections ] = useState([])
 	useEffect(()=>{

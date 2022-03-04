@@ -1,5 +1,5 @@
-export const cities = {
-	canada: [
+export const connections = {
+	4: [ // from Japan to
 		20, // QC
 		19, // montreal
 		21, // ottawa
@@ -15,7 +15,7 @@ export const cities = {
 		651, // richmond
 		235 // burnaby
 	],
-	japan: [
+	2: [ // from canada to 
 		// hokkaido
 		1180, // kitami
 		1182, // sapporo
