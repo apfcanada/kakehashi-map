@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom'
-import Map from './Map'
+import BilateralMap from './BilateralMap'
 
 render(  
-	<Map/>,
+	<BilateralMap left={2} right={4}/>,
 	document.querySelector('#embedded-kakehashi-map')
 )
