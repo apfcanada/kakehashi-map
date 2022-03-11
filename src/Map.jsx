@@ -33,9 +33,9 @@ export default function({jurisdiction,width,height}){
 			<g className="jurisdictions">
 				{jurisdiction.children.map( jur => (
 					<path key={jur.geo_id}
-						onMouseEnter={()=>handleClick(jur)}
+						onMouseEnter={()=>highlight(jur)}
 						onMouseLeave={()=>setCities([])}
-						className={`jurisdiction ${getCities(jur).length > 0 ? 'withCities':''}`}
+						className={`jurisdiction ${hasCities(jur)?'withCities':''}`}
 						d={pathGen(jur.boundary)}/>
 				) )}
 				{cities.map( city => {
@@ -47,15 +47,7 @@ export default function({jurisdiction,width,height}){
 			</g>
 		</g>
 	)
-	function handleClick(jur){
-		let cities = [
-			...jur.connections,
-			...jur.descendants.map(d=>d.connections).flat()
-		].filter(c=>!(c instanceof FDI))
-			.map(c=>c.jurisdictions).flat()
-			.filter(cj=>cj.country==jur.country)
-		setCities(cities)
-	}
+	function highlight(jur){ setCities(getCities(jur)) }
 }
 
 function getCities(jur){
@@ -65,6 +57,9 @@ function getCities(jur){
 	].filter(c=>!(c instanceof FDI))
 		.map(c=>c.jurisdictions).flat()
 		.filter(cj=>cj.country==jur.country)
+}
+function hasCities(jur){
+	return getCities(jur).length > 0
 }
 
 function Cities({proj}){
