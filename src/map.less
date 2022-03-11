@@ -1,3 +1,10 @@
+:root {
+	--red: #e94343;
+	--lightblue: #37a9df;
+	--blue: #3473a9;
+	--darkblue: #1c2960;
+	--bg: #f7f7f7;
+}
 svg.map {
 	stroke-linecap: round;
 	stroke-linejoin: round;
@@ -11,21 +18,21 @@ svg.map {
 		stroke: #0002;
 		stroke-width: 1px;
 		&.withCities {
-			fill: darkgrey;
+			fill: var(--lightblue);
 		}
 		&:hover {
-			fill: grey;
+			fill: var(--blue);
 		}
 	}
 	circle.city {
-		stroke: darkblue;
+		stroke: var(--darkblue);
 		animation-name: cityGrow;
 		animation-duration: 2s;
 		animation-iteration-count: 0.99;
 		animation-fill-mode: forwards;
 	}
 	rect.background {
-		fill: #0061;
+		fill: var(--bg);
 	}
 }
 @keyframes cityGrow {
