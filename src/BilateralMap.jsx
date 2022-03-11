@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { JurisdictionGraph, DirectedConnection } from 'jurisdictions'
+import { JurisdictionGraph, Connection } from 'jurisdictions'
 import Map from './Map'
 
 const graph = new JurisdictionGraph()
 
-const [width,height,gutter,margin] = [800,400,40,10]
+const [width,height,gutter,margin] = [800,350,40,10]
 const bounds = [ [-width/2,-height/2], [width/2,height/2] ]
 
 import { connections } from './connections.js'
@@ -18,7 +18,7 @@ export default function({left,right}){
 		for( let [ fromGeo_id, toList ] of Object.entries(connections) ){
 			toList.map( toGeo_id => {
 				graph.lookup([fromGeo_id,toGeo_id]).then( ([fromJur,toJur]) => {
-					new DirectedConnection(fromJur,toJur).notify()
+					new Connection(fromJur,toJur).notify()
 				} )
 			} )
 		}

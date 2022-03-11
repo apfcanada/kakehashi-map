@@ -32,12 +32,22 @@ export default function({jurisdiction,width,height}){
 			<g className="jurisdictions">
 				{jurisdiction.children.map( jur => (
 					<path key={jur.geo_id}
+						onClick={()=>handleClick(jur)}
 						className="jurisdiction"
 						d={pathGen(jur.boundary)}/>		
 				) )}
 			</g>
 		</g>
 	)
+}
+
+function handleClick(jur){
+	console.log(jur.name.en)
+	let conns = [
+		...jur.connections,
+		...jur.descendants.map(d=>d.connections).flat()
+	].map(c=>c.id)
+	console.log(conns)
 }
 
 function Cities({proj}){
