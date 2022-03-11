@@ -21,7 +21,6 @@ export default function({jurisdiction,width,height}){
 	},[])
 	if(!projection) return null;
 	const pathGen = geoPath().projection( projection )
-	console.log(cities)
 	return (
 		<g>
 			<rect className="background" 
@@ -36,7 +35,7 @@ export default function({jurisdiction,width,height}){
 					<path key={jur.geo_id}
 						onMouseEnter={()=>handleClick(jur)}
 						onMouseLeave={()=>setCities([])}
-						className="jurisdiction"
+						className={`jurisdiction ${getCities(jur).length > 0 ? 'withCities':''}`}
 						d={pathGen(jur.boundary)}/>
 				) )}
 				{cities.map( city => {
@@ -57,6 +56,15 @@ export default function({jurisdiction,width,height}){
 			.filter(cj=>cj.country==jur.country)
 		setCities(cities)
 	}
+}
+
+function getCities(jur){
+	return [
+		...jur.connections,
+		...jur.descendants.map(d=>d.connections).flat()
+	].filter(c=>!(c instanceof FDI))
+		.map(c=>c.jurisdictions).flat()
+		.filter(cj=>cj.country==jur.country)
 }
 
 function Cities({proj}){
