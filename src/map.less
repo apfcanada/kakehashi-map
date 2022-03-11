@@ -15,11 +15,26 @@ svg.map {
 		}
 	}
 	circle.city {
-		fill: #0001;
 		stroke: darkblue;
-		stroke-width: 2px;
+		animation-name: cityGrow;
+		animation-duration: 2s;
+		animation-iteration-count: 0.99;
+		animation-fill-mode: forwards;
 	}
 	rect.background {
 		fill: #0061;
+	}
+}
+@keyframes cityGrow {
+	from { 
+		r: 0; 
+		stroke-width: 2px;
+		fill: #0001;
+	}
+	to { 
+		r: 6px; 
+		stroke-width: 0.5px;
+		fill: darkblue;
+		fill-opacity: 0.25;
 	}
 }

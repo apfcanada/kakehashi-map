@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { assignBoundaries } from 'jurisdictions'
+import { assignBoundaries, FDI } from 'jurisdictions'
 import { geoPath, geoGraticule, geoOrthographic, geoCentroid } from 'd3-geo'
 import './map.less'
 	
@@ -7,6 +7,7 @@ export default function({jurisdiction,width,height}){
 	const projBounds = [ [-width/2,-height/2], [width/2,height/2] ]
 	// projection is a function, so it needs to be wrapped
 	const [ {projection}, setProjection ] = useState({projection:null})
+	const [ cities, setCities ] = useState([])
 	useEffect(()=>{
 		assignBoundaries([jurisdiction,...jurisdiction.children])
 			.then( ignoreMe => {
@@ -20,6 +21,7 @@ export default function({jurisdiction,width,height}){
 	},[])
 	if(!projection) return null;
 	const pathGen = geoPath().projection( projection )
+	console.log(cities)
 	return (
 		<g>
 			<rect className="background" 
@@ -32,22 +34,29 @@ export default function({jurisdiction,width,height}){
 			<g className="jurisdictions">
 				{jurisdiction.children.map( jur => (
 					<path key={jur.geo_id}
-						onClick={()=>handleClick(jur)}
+						onMouseEnter={()=>handleClick(jur)}
+						onMouseLeave={()=>setCities([])}
 						className="jurisdiction"
-						d={pathGen(jur.boundary)}/>		
+						d={pathGen(jur.boundary)}/>
 				) )}
+				{cities.map( city => {
+					const [x,y] = projection(city.latlon)
+					return (
+						<circle key={city.geo_id} cx={x} cy={y} className="city"/>
+					) 
+				} )}
 			</g>
 		</g>
 	)
-}
-
-function handleClick(jur){
-	console.log(jur.name.en)
-	let conns = [
-		...jur.connections,
-		...jur.descendants.map(d=>d.connections).flat()
-	].map(c=>c.id)
-	console.log(conns)
+	function handleClick(jur){
+		let cities = [
+			...jur.connections,
+			...jur.descendants.map(d=>d.connections).flat()
+		].filter(c=>!(c instanceof FDI))
+			.map(c=>c.jurisdictions).flat()
+			.filter(cj=>cj.country==jur.country)
+		setCities(cities)
+	}
 }
 
 function Cities({proj}){
